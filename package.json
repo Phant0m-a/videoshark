@@ -1,0 +1,32 @@
+{
+  "name": "hmmm",
+  "version": "1.0.0",
+  "description": "App where i can upload my favourate video for a week then replace with trend. Future version will include mp3 files and photos too. This is an ever evolving app for fun purposes only!",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "devStart": "nodemon server.js"
+  },
+  "author": "Ahsan Ali (for now i guess)",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^5.15.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-fileupload": "^1.2.1",
+    "firebase": "^9.1.2",
+    "firebase-admin": "^9.12.0",
+    "firebase-auth": "^0.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.13",
+    "uuid-v4": "^0.1.0"
+  },
+  "devDependencies": {
+    "calling-codes": "^2.0.0",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.7"
+  }
+}

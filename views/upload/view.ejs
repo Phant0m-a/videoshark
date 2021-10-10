@@ -1,0 +1,157 @@
+
+
+
+<div class="" style="margin-top:-30px;margin-left:-30px;">
+    <div class="bg-dark text-light " style="display:flex;justify-content: space-between;align-items: center;padding:30px 60px 10px 60px; ">
+        <a href="localhost:3000/" style="color:white;">Elim</a>
+        
+        <ul style='display:flex;justify-content: space-between;align-items: center;text-align: center;list-style-type: none;'>
+            <li >
+                <a href="/" class="active text-muted"style="padding:10px" >Home</a></li>
+            <li><a href="/about" class="text-light"style="padding:10px">About</a></li>
+        </ul>
+    </div>
+
+
+    <br>
+    <!-- start -->
+
+
+
+
+
+    <!-- end -->
+</div>
+
+<div class='container'>
+    <div class="container pb-5 mb-sm-1">
+        <!-- Categories grid-->
+        <div class="row">
+
+            <%data.forEach((doc)=>{%>
+
+
+            <!-- Category-->
+            <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter h-100">
+                    <a class="card-img-tiles" href="#">
+                        <div class="main-img" width="100" height="100">
+                            <img src="<%=doc.data().videoThumbnail%>" height="250px" class="card-img-top"  alt="Your internet is shit">
+                        </div>
+
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <h2 class="h5 mb-1"><%=doc.data().title%></h2>
+                        <span class="d-block mb-3 font-size-xs text-muted"><br>
+                             <!-- <span class="font-weight-semibold">$49.99</span></span> -->
+                            <% if(doc.data().videoUrl.length > 35) { %>
+                                <a class="btn btn-pill btn-outline-primary btn-sm"  data-toggle="modal"
+                                data-target="#a<%=doc.data().id%>a" >Play video</a>
+                             <% }else{ %>
+                        <a class="btn btn-pill btn-outline-primary btn-sm"  href='<%=doc.data().videoUrl%>' >Play video</a> 
+                                <% } %>
+<!-- editing part -->
+
+                            <div class="modal fade" id="a<%=doc.data().id%>a" tabindex="-1"
+                                role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Video Playback</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <video style="cursor: pointer;" preload='metadata' width="100%" height="100%"
+                                                controls controlsList=" nodownload"
+                                                poster="<%=doc.data().videoThumbnail%>">
+                                                <source src="<%=doc.data().videoUrl%>"
+                                                    type="video/mp4">
+                                                <source src="<%=doc.data().videoUrl%>"
+                                                    type="video/ogg">
+                                                Your browser does not support the video or you don't have a stable internet conntection!
+                                            </video>
+                                            
+
+                                        </div>
+                                        <div class="modal-footer" style='font-size:14px'>
+                                          lanat @ 2021
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+<!-- editing part end-->
+
+                    </div>
+                </div>
+            </div>
+            <%})%>
+
+            <!-- Category -->
+            <!-- <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter">
+                    <a class="card-img-tiles" href="shop-style1-ls.html">
+                        <div class="main-img"><img src="https://via.placeholder.com/340x326/8A2BE2/000000" alt="Shoes"></div>
+                   
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <h2 class="h5 mb-1">Shoes</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$56.00</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop shoes</a>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Category-->
+            <!-- <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter">
+                    <a class="card-img-tiles" href="shop-style1-ls.html">
+                        <div class="main-img"><img src="https://via.placeholder.com/340x326/6495ED/000000" alt="Bags"></div>
+                      
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <h2 class="h5 mb-1">Bags</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$27.00</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop bags</a>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Category-->
+            <!-- <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter">
+                    <a class="card-img-tiles" href="shop-style1-ls.html">
+                        <div class="main-img"><img src="https://via.placeholder.com/340x326/FF7F50/000000" alt="Sunglasses"></div>
+                       
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <h2 class="h5 mb-1">Sunglasses</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$35.99</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop sunglasses</a>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Category-->
+            <!-- <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter">
+                    <a class="card-img-tiles" href="shop-style1-ls.html">
+                        <div class="main-img"><img src="https://via.placeholder.com/340x326/008B8B/000000" alt="Hats"></div>
+                       
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <h2 class="h5 mb-1">Hats</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$14.50</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop hats</a>
+                    </div>
+                </div>
+            </div> -->
+            <!-- Category-->
+            <!-- <div class="col-md-4 col-sm-6">
+                <div class="card border-0 mb-grid-gutter">
+                    <a class="card-img-tiles" href="shop-style1-ls.html">
+                        <div class="main-img"><img src="https://via.placeholder.com/340x326/9932CC/000000" alt="Gloves"></div>
+                       
+                    </a>
+                    <div class="card-body border mt-n1 py-4 text-center">
+                        <h2 class="h5 mb-1">Gloves</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$10.45</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop accessories</a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
