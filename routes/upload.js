@@ -23,6 +23,15 @@ const bucket = storage.bucket("webapp-e9ad0.appspot.com");
 let bucketName = 'webapp-e9ad0.appspot.com';
 
 
+// delete file
+async function deleteFile(filename) {
+    // Deletes the file from the bucket
+    await storage.bucket(bucketName).file(filename).delete();
+
+    console.log(`gs://${bucketName}/${filename} deleted.`);
+  }
+
+ 
 // function for image upload
 function upload(localFile, remoteFile) {
 
@@ -105,27 +114,20 @@ const router = express.Router()
 const db = firebase.firestore();
 
 router.get('/',async (req,res)=>{
-    let data = await db.collection('videos').get();
-    if(data){
-        data.forEach((doc)=>{
-            // console.log(doc.data())
-        })
-    }
-    // res.send('Hello Hmmm App!')
-    console.log('im in /add');
-    res.render('upload/add');
-})  
+    res.render('upload/home')
+})
 
 router.post('/upload',async (req,res)=>{
   
         let vid_url="";
         let title = req.body.title;
         var videoThumbnail = req.files.videoThumbnail.mimetype;
-       
+       let picId='';
+       let vidId= 'no id';
        
        
         let uuid = uuidv4();
-     
+        picId = uuid;
         // let ext=path.extname(req.files.videoThumbnail.name);
 
        
@@ -145,6 +147,7 @@ if( req.files.videoUrl !== undefined ){
     var videoUrl = req.files.VideoUrl.mimetype;
     let ext2 = videoUrl.split('/')[1]
     let uuid2 = uuidv4();
+    vidId=uuid2;
     let getter2 = await uploadf(req.files.VideoUrl.tempFilePath, uuid2);
     vid_url = "https://firebasestorage.googleapis.com/v0/b/" + bucket.name + "/o/" + encodeURIComponent(uuid2) + "?alt=media&token=" + uuid2+'.'+ext2;
     console.log(vid_url);
@@ -163,9 +166,12 @@ if( req.files.videoUrl !== undefined ){
                 db.collection('videos').add({
                     id:uuidv4(),
                     videoThumbnail:fileName,
+                    picId:picId,
+                    vidId:vidId,
                     videoUrl: vid_url,
                     timestamp:new Date(),
-                    title:title
+                    title:title,
+                    
                 })
             }, 1000)
 
@@ -174,6 +180,28 @@ if( req.files.videoUrl !== undefined ){
     // res.send('Hello Hmmm App!')
     res.redirect('/upload/');
 })
+
+router.get('/add', (req,res)=>{
+    res.render('upload/add');
+})
+
+    router.get('/viewList',async (req,res)=>{
+    console.log('im in /add');
+    let data = await db.collection('videos').get();
+    res.render('upload/viewList',{data:data});
+   
+}) 
+
+router.get('/delete/:id/:picId/:vidId', async (req,res)=>{
+    
+    deleteFile(req.params.picId)
+    deleteFile(req.params.vidId)
+
+     await db.collection('videos').doc(req.params.id).delete();
+     res.redirect('/admin/viewList')
+})
+
+
 
 
 // router.get('/view', async(req,res)=>{
