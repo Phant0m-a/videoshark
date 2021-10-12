@@ -5,6 +5,7 @@
         <ul style='display:flex;justify-content: space-between;align-items: center;text-align: center;list-style-type: none;'>
             <li >
                 <a href="/admin" class="active text-light"style="padding:15px;margin-top:15px;font-size:16px">Home</a></li>
+                <li><a href="/admin/add" class="text-light"style="padding:15px;margin-top:15px;font-size:16px">Add videos</a></li>
                 <li><a href="/admin/viewList" class="text-light"style="padding:15px;margin-top:15px;font-size:16px">All videos</a></li>
         </ul>
     </div>
@@ -20,48 +21,36 @@
     <!-- end -->
 </div>
 
-<div class="container" style="background-color: white;padding:15px">
-    <h3>Add a Video</h3>
-    <hr style="width:20%;color:white">
+<div class="container">
+    <h3>Edit Video</h3>
+    <hr style="width:20%;color:grey">
     <form id='addvideoform' >
 
         <div class="form-group">
             <label class='text-dark' for="">Title</label>
-            <input type="text" class="form-control" name="video" id='video' placeholder="Enter video name ..."
+            <input type="text" class="form-control" name="video" id='video' value='<%=doc.data().title%>' placeholder="<%=doc.data().title%>"
                 required>
+            <!-- hidden values -->
+            <input type="hidden" class="form-control" name="oldThumbnail" id='oldThumbnail' value='<%=doc.data().videoThumbnail%>' >
+            <input type="hidden" class="form-control" name="docId" id='docId' value='<%=doc.id%>' >
             <br>
             <div class="form-group">
                 <label class='text-dark' for="">Upload Thumbnail </label><br>
                 <input type="file" name="videoThumbnail" id='videoThumbnail' required>
-            </div><br>
-              <p>
-        <a class="btn btn-warning" type="button" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample">
-           Add URL instead
-        </a>
-    </p>
-   <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-        <br>
-    <label  class='text-dark'for="">video Url</label>
-    <input id='url' type="text" class="form-control" name="url" minlength="12"  placeholder="Enter video url" >
-    
-        </div>
-    </div>
+            </div>
             <br>
-            <div class="form-group">
+         <img src="<%=doc.data().videoThumbnail%>" width='150px' height='150px' alt="No-image-loaded">
+            <br>
+            <!-- <div class="form-group">
                 <label class='text-dark' for="">Upload video </label><br>
                 <input id='VideoUrl' type="file" name="VideoUrl" >
-            </div><br>
-           
-            <!-- <input id='isLocked' type="checkbox" name='isLocked'  /> <label class='text-dark' for="">Lock video status</label> -->
-         
-
+            </div><br> -->
+     
 
             <br>
         </div>
 
-        <button id='lec-upload-button' type="submit" class="btn btn-success hide-item">Add</button>
+        <button id='lec-upload-button' type="submit" class="btn btn-success hide-item">Update</button>
         <h3 id="add-lec-progress" class="hide-item"></h3>
     </form>
 </div>
@@ -70,8 +59,6 @@
     
 const addVideoForm=document.getElementById('addvideoform');
 const uploadButton=document.getElementById('lec-upload-button');
-
-// const isLockedBtn = document.getElementById('isLocked');
 const addLectureProgressValue=document.getElementById('add-lec-progress');
 addVideoForm.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -83,21 +70,15 @@ addVideoForm.addEventListener('submit',(e)=>{
     const form=new FormData();
    
     form.append('title',e.target.elements.video.value);
-    form.append('url', e.target.elements.url.value);
-    
-    // form.append('lecture',e.target.elements.lecture.value);
-
- 
-    // form.append('Demo',e.target.elements.Demo.checked);
-    // form.append('Demo',DemoBtn.checked);
-    // form.append('isLocked',isLockedBtn.checked);
+    form.append('oldThumbnail', e.target.elements.oldThumbnail.value);
+    form.append('docId', e.target.elements.docId.value);
     form.append('videoThumbnail',e.target.elements.videoThumbnail.files[0]);
-    if(e.target.elements.VideoUrl.files[0] != undefined || e.target.elements.VideoUrl.files[0] != null || e.target.elements.VideoUrl.files[0] != ""){
-    form.append('VideoUrl',e.target.elements.VideoUrl.files[0]);
-    }
+    // if(e.target.elements.VideoUrl.files[0] != undefined || e.target.elements.VideoUrl.files[0] != null || e.target.elements.VideoUrl.files[0] != ""){
+    // form.append('VideoUrl',e.target.elements.VideoUrl.files[0]);
+    // }
     axios
     .post(
-      '/admin/upload',
+      '/admin/edit',
       form,
      { onUploadProgress:(progressEvent)=>{
         addLectureProgressValue.innerHTML=Math.round((progressEvent.loaded*100)/progressEvent.total).toString()+'%';
@@ -115,8 +96,6 @@ addVideoForm.addEventListener('submit',(e)=>{
     .catch(err => {
       console.log(err, err.response);
     });
-    // console.log(e.target.elements.lectureThumbnail.files[0]);
-    // alert(e.target.elements.sectionId.value);
-    
+
 })
 </script>

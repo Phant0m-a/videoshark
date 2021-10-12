@@ -117,6 +117,10 @@ router.get('/',async (req,res)=>{
     res.render('upload/home')
 })
 
+// from edit picture part post
+
+
+// add video part post
 router.post('/upload',async (req,res)=>{
   
         let vid_url="";
@@ -128,16 +132,9 @@ router.post('/upload',async (req,res)=>{
        
         let uuid = uuidv4();
         picId = uuid;
-        // let ext=path.extname(req.files.videoThumbnail.name);
-
-       
         let ext = videoThumbnail.split('/')[1]
-      
-  
-                let getter = await upload(req.files.videoThumbnail.tempFilePath, uuid);
-
-           
-                 let fileName = "https://firebasestorage.googleapis.com/v0/b/" + bucket.name + "/o/" + encodeURIComponent(uuid) + "?alt=media&token=" + uuid+'.'+ext;
+        let getter = await upload(req.files.videoThumbnail.tempFilePath, uuid);
+        let fileName = "https://firebasestorage.googleapis.com/v0/b/" + bucket.name + "/o/" + encodeURIComponent(uuid) + "?alt=media&token=" + uuid+'.'+ext;
                
 console.log('the video Url is )))))))))')
 console.log(req.files.videoUrl)
@@ -185,12 +182,13 @@ router.get('/add', (req,res)=>{
     res.render('upload/add');
 })
 
-    router.get('/viewList',async (req,res)=>{
+router.get('/viewList',async (req,res)=>{
     console.log('im in /add');
     let data = await db.collection('videos').get();
     res.render('upload/viewList',{data:data});
    
 }) 
+
 
 router.get('/delete/:id/:picId/:vidId', async (req,res)=>{
     
@@ -208,6 +206,57 @@ router.get('/delete/:id/:picId/:vidId', async (req,res)=>{
     
 // })
 
+router.post('/edit', async(req,res)=>{
+    console.log('in edit')
+    console.log(req.body)
+    let data = await db.collection('videos').get(req.body.docId);
+    let docs;
+
+    if(data){
+        data.forEach((doc)=>{
+            docs=doc.data();
+            console.log(docs)
+        })
+    }
+
+    let title = req.body.title;
+    let video_thumbnail;
+    let picId;
+    let uuid ;
+if(req.files){
+    if(req.files.videoThumbnail !== undefined){
+        deleteFile(docs.picId)
+        var videoThumbnail = req.files.videoThumbnail.mimetype;
+        uuid = uuidv4();
+        picId = uuid;
+        let ext = videoThumbnail.split('/')[1]
+        let getter = await upload(req.files.videoThumbnail.tempFilePath, uuid);
+        video_thumbnail = "https://firebasestorage.googleapis.com/v0/b/" + bucket.name + "/o/" + encodeURIComponent(uuid) + "?alt=media&token=" + uuid+'.'+ext;
+
+    }else{
+        picId = docs.picId;
+        video_thumbnail = docs.videoThumbnail;
+    }
+
+}else{
+    picId = docs.picId;
+    video_thumbnail = docs.videoThumbnail;
+}
+console.log('results ;;;;;')
+console.log(picId)
+console.log(video_thumbnail)
+console.log(title)
+
+    // update doc
+    await db.collection('videos').doc(req.body.docId).update({
+        title:title,
+        picId:picId,
+        videoThumbnail:video_thumbnail 
+    });
+
+    res.redirect('/admin/viewList')
+    
+})
 
 
 module.exports = router

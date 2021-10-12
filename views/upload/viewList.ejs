@@ -47,15 +47,15 @@
                                 <a class="btn btn-pill btn-outline-primary btn-sm"  data-toggle="modal"
                                 data-target="#a<%=doc.data().id%>a" >Play video</a>
                                 <a class="btn btn-pill btn-outline-success btn-sm"  data-toggle="modal"
-                                data-target="#" >Edit video</a>
+                                data-target="#b<%=doc.data().id%>b" >Edit video</a>
                                 <a class="btn btn-pill btn-outline-danger btn-sm"  data-toggle="modal"
                                 data-target="#a<%=doc.data().id%>12a" >Delete video</a>
                              <% }else{ %>
-                        <a class="btn btn-pill btn-outline-primary btn-sm"  href='<%=doc.data().videoUrl%>' >Play video</a> 
+                        <a class="btn btn-pill btn-outline-primary btn-sm"  href='<%=doc.data().videoUrl%>' target="_blank" >Play video</a> 
                         <a class="btn btn-pill btn-outline-danger btn-sm"  data-toggle="modal"
                                 data-target="#a<%=doc.data().id%>12a" >Delete video</a>
                                 <% } %>
-<!-- editing part -->
+<!-- display part -->
 
                             <div class="modal fade" id="a<%=doc.data().id%>a" tabindex="-1"
                                 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-<!-- editing part end-->
+<!-- display part end-->
 
 
 
@@ -121,72 +121,69 @@
 </div>
 <!-- deleting part end -->
 
+
+<!-- Edit part start -->
+<div class="modal fade" id="b<%=doc.data().id%>b" tabindex="-1"
+    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Content</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container">
+                    
+                   
+                    <form action="/admin/edit" method="post" enctype="multipart/form-data">
+                
+                        <div class="form-group">
+                            <label class='text-dark' for="">Title</label>
+                            <input type="text" class="form-control" name="title" id='title' value='<%=doc.data().title%>' placeholder="<%=doc.data().title%>"required>
+                               
+                            <!-- hidden values -->
+                            <input type="text" style='visibility: hidden' class="form-control" name="docId" id='docId' value='<%=doc.id%>'>
+                            <br>
+                            <div class="form-group">
+                                <label class='text-dark' for="">Upload Thumbnail </label><br>
+                                <input type="file" name="videoThumbnail" id='videoThumbnail' >
+                            </div>
+                            <br>
+                         <img src="<%=doc.data().videoThumbnail%>" width='150px' height='150px' alt="No-image-loaded">
+                            <br>
+                            <!-- <div class="form-group">
+                                <label class='text-dark' for="">Upload video </label><br>
+                                <input id='VideoUrl' type="file" name="VideoUrl" >
+                            </div><br> -->
+                     
+                
+                            <br>
+                        </div>
+                
+                        <button id='lec-upload-button' type="submit" class="btn btn-success hide-item">Update</button>
+                        <h3 id="add-lec-progress" class="hide-item"></h3>
+                    </form>
+                </div>
+                
+   
+            </div>
+            <div class="modal-footer" style='font-size:14px'>
+              video shark @ 2021
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit part end -->
+
                     </div>
                 </div>
             </div>
             <%})%>
 
-            <!-- Category -->
-            <!-- <div class="col-md-4 col-sm-6">
-                <div class="card border-0 mb-grid-gutter">
-                    <a class="card-img-tiles" href="shop-style1-ls.html">
-                        <div class="main-img"><img src="https://via.placeholder.com/340x326/8A2BE2/000000" alt="Shoes"></div>
-                   
-                    </a>
-                    <div class="card-body border mt-n1 py-4 text-center">
-                        <h2 class="h5 mb-1">Shoes</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$56.00</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop shoes</a>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Category-->
-            <!-- <div class="col-md-4 col-sm-6">
-                <div class="card border-0 mb-grid-gutter">
-                    <a class="card-img-tiles" href="shop-style1-ls.html">
-                        <div class="main-img"><img src="https://via.placeholder.com/340x326/6495ED/000000" alt="Bags"></div>
-                      
-                    </a>
-                    <div class="card-body border mt-n1 py-4 text-center">
-                        <h2 class="h5 mb-1">Bags</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$27.00</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop bags</a>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Category-->
-            <!-- <div class="col-md-4 col-sm-6">
-                <div class="card border-0 mb-grid-gutter">
-                    <a class="card-img-tiles" href="shop-style1-ls.html">
-                        <div class="main-img"><img src="https://via.placeholder.com/340x326/FF7F50/000000" alt="Sunglasses"></div>
-                       
-                    </a>
-                    <div class="card-body border mt-n1 py-4 text-center">
-                        <h2 class="h5 mb-1">Sunglasses</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$35.99</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop sunglasses</a>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Category-->
-            <!-- <div class="col-md-4 col-sm-6">
-                <div class="card border-0 mb-grid-gutter">
-                    <a class="card-img-tiles" href="shop-style1-ls.html">
-                        <div class="main-img"><img src="https://via.placeholder.com/340x326/008B8B/000000" alt="Hats"></div>
-                       
-                    </a>
-                    <div class="card-body border mt-n1 py-4 text-center">
-                        <h2 class="h5 mb-1">Hats</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$14.50</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop hats</a>
-                    </div>
-                </div>
-            </div> -->
-            <!-- Category-->
-            <!-- <div class="col-md-4 col-sm-6">
-                <div class="card border-0 mb-grid-gutter">
-                    <a class="card-img-tiles" href="shop-style1-ls.html">
-                        <div class="main-img"><img src="https://via.placeholder.com/340x326/9932CC/000000" alt="Gloves"></div>
-                       
-                    </a>
-                    <div class="card-body border mt-n1 py-4 text-center">
-                        <h2 class="h5 mb-1">Gloves</h2><span class="d-block mb-3 font-size-xs text-muted">Starting from <span class="font-weight-semibold">$10.45</span></span><a class="btn btn-pill btn-outline-primary btn-sm" href="shop-style1-ls.html">Shop accessories</a>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>
-
+  
